@@ -1,0 +1,5 @@
+      [paste.app_factory]
+      main = bookingsystem:main
+      [console_scripts]
+      initialize_bookingsystem_db = bookingsystem.scripts.initializedb:main
+      

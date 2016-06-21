@@ -1,0 +1,28 @@
+{% block content %}
+<head>
+<style type="text/css">
+#center {
+	top: 50%; /* Отступ в процентах от верхнего края окна */
+	left: 50%; /* Отступ в процентах от левого края окна */
+	width: 500px; /* Ширина блока */
+	height: auto; /* Высота блока */
+	outline: 2px solid #000;
+	position: absolute; /* Абсолютное позиционирование блока */
+	margin-top: -250px; /* Отрицательный отступ от верхнего края страницы, должен равняться половине высоты блока со знаком минус */
+	margin-left: -250px; /* Отрицательный отступ от левого края страницы, должен равняться половине высоты блока со знаком минус */
+	
+}
+</style>
+</head>
+
+<div class="center" id="center">
+<p align="justify">Добро пожаловать в систему бронирования авиабилетов. Для продолжения, пожалуйста, авторизуйтесь</p><br>
+<form method="get" action="#" id="autorization" margin= "10,10,10,10">
+       <label for="name">E-mail: </label>
+       <input type="text" name="name" id="name"> <br>
+       <label for="name">Пароль: </label>
+       <input type="password" name="email" id="email" > <br>
+       <input type="submit" name="submit" value="Вход в систему" id="submit" >
+  </form>
+</div>	
+{% endblock content %}

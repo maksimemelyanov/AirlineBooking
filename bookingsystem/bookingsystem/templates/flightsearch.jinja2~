@@ -1,0 +1,87 @@
+<head>
+<!--<link rel="stylesheet" type="text/css" href="../scripts/tcal.css" />
+	<script type="text/javascript" src="../scripts/tcal.js"></script>--> 
+<style type="text/css">
+#center {
+	margin-left:auto;
+	margin-right:auto;
+	top: 10%; /* Отступ в процентах от верхнего края окна */
+	width: auto; /* Ширина блока */
+	height: auto; /* Высота блока */
+	outline: 0px solid #000;
+	position: absolute; /* Абсолютное позиционирование блока */
+	/*margin-top: -400px; /* Отрицательный отступ от верхнего края страницы, должен равняться половине высоты блока со знаком минус */
+	/*margin-left: -40%; /* Отрицательный отступ от левого края страницы, должен равняться половине высоты блока со знаком минус */
+	
+}
+#input {
+}
+</style>
+</head>
+{% block content %}
+
+<a href="../logout">Выйти</a>
+<center><div class="center" id="center">
+<form action="/search" method="POST">
+  
+<input list="fromcities" placeholder="Отправление" name="fromcity">
+<datalist id="fromcities">
+{% for city in cities %}
+	<option value="{{city.name}}" label="{{city.name}}">
+{% endfor %}
+</datalist>  
+<input list="tocities" placeholder="Прибытие" name="tocity">
+<datalist id="tocities">
+{% for city in cities %}
+	<option value="{{city.name}}" label="{{city.name}}">
+{% endfor %}
+</datalist>
+<input type="text" name="date" class="tcal" value="2015-01-01" >
+<select name="category">
+{% for category in categories %}
+	<option value="{{category.id}}">{{category.name}}</option>
+{% endfor %}
+</select>
+<select name="count">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+</select >
+	<input type="submit" value="Поиск"></p>
+</form>
+</div>
+</center>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+Ваш запрос:{{query}}
+<h3>Результаты поиска</h3>
+<table class="orders" width="100%">
+	<tr>
+		<th width="10%">№ рейса</th>
+		<th width="20%">Отправление</th>
+		<th width="20%">Прибытие</th>
+		<th width="10%">Тариф</th>
+		<th width="10%">Сборы</th>
+		<th width="10%">Общая стоимость</th>
+		<th width="10%">Норма багажа</th>
+		<th width="10%">Купить</th>
+	</tr>
+	{% for flight in flights %}
+	<tr>
+		<td>{{flight.number}}</td>
+		<td>{{flight.fromcity}} ({{flight.fromport}})<br>{{flight.fromdate}} ({{flight.fromtime}})<br></td>
+		<td>{{flight.tocity}} ({{flight.toport}})<br>{{flight.todate}} ({{flight.totime}})<br></td>
+		<td>{{flight.tarif}}</td>
+		<td>{{flight.tax}}</td>
+		<td>{{flight.total}}</td>
+		<td>{{flight.baggage}}</td>
+		<td><a href="/buy?seat={{flight.r_id}}&count={{flight.p_count}}">Купить</a</td>
+	</tr>
+	{% endfor %}	
+</table>	
+{% endblock content %}

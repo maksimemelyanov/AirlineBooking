@@ -1,0 +1,124 @@
+{% block content %}
+<head title=": личный кабинет">
+	<meta charset="utf-8">
+        <style type="text/css">
+            	table {
+			border-spacing: 0 10px;
+			font-family: 'Open Sans', sans-serif;
+			font-weight: bold;
+			font-size: 20px;
+			}
+		th {
+			padding: 10px 20px;
+			background: #56433D;
+			color: #F9C941;
+			border-right: 2px solid; 
+			font-size: 0.9em;
+			}
+		td {
+			vertical-align: middle;
+			padding: 10px;
+			font-size: 16px;
+			text-align: left;
+			border-top: 2px solid #56433D;
+			border-bottom: 2px solid #56433D;
+			border-right: 2px solid #56433D;
+			}
+		td:first-child {
+			border-left: 2px solid #56433D;
+			}
+		td:nth-child(2){
+			ext-align: left;
+			}
+        </style>
+        
+        <style type="text/css">
+		a.button {
+			font-weight: 700;
+			color: white;
+			text-decoration: none;
+			padding: .8em 1em calc(.8em + 3px);
+			border-radius: 3px;
+			background: rgb(64,199,129);
+			box-shadow: 0 -3px rgb(53,167,110) inset;
+			transition: 0.2s;
+			} 
+		a.button:hover { background: rgb(53, 167, 110); }
+		a.button:active {
+			background: rgb(33,147,90);
+			box-shadow: 0 3px rgb(33,147,90) inset;
+			}
+        </style>
+</head>
+<body>
+<a href="../logout">Выйти</a>
+	<table border=0>
+		<col width="20%" valign="center">
+		<col width="*" valign="center">
+		<tr>
+                	<td>Карта клиента:</td>
+                	<td>{{client.card}}</td>
+		</tr>
+		<tr>
+            		<td>Фамилия, имя::</td>
+                	<td>{{client.name}}</td>
+		</tr>
+		<tr>
+			<td>Контактный телефон:</td>
+			<td>{{client.phone}}</td>
+		</tr>
+		<tr>
+			<td>Дата рождения:</td>
+			<td>{{client.birth}}</td>
+		</tr>
+	</table>
+        <br>
+        <br>
+        <a href="../search" class="button">Новый заказ</a>
+        <br>
+        <br>
+        <table class="orders" width="100%">
+		<tr>
+			<th width="5%">№ заказа</th>
+			<th width="15%">Дата и время</th>
+			<th width="20%">Информация о рейсе</th>
+			<th width="50%">Список пассажиров</th>
+			<th width="10%">Сумма заказа</th>
+		</tr>
+		{% for order in orders %}
+		<tr>
+			<td>{{order.or_number}}</td>
+			<td>{{order.or_date}}</td>
+			<td>{{order.or_flightnumber}}<br>
+			{{order.or_fromcity}} ({{order.or_fromport}})<br>
+			{{order.or_tocity}} ({{order.or_toport}})<br>
+			{{order.or_fromdate}} ({{order.or_fromtime}})<br>
+			{{order.or_todate}} ({{order.or_totime}})<br>
+			</td>
+			<td>
+				<table>
+					<tr>
+						<th width="10%">№ билета</th>
+						<th width="35%">ФИО пассажира</th>
+						<th width="15%">Дата рождения</th>
+						<th width="35%">Документ</th>
+						<th width="15%">Стоимость</th>
+					</tr>
+					{% for ticket in order.tickets %}
+					<tr>
+						<td width="10%">{{ticket.tick_number}}</td>
+						<td width="15%">{{ticket.tick_name}}</td>
+						<td width="25%">{{ticket.tick_birth}}</td>
+						<td width="35%">{{ticket.tick_document}}</td>
+						<td width="15%">{{ticket.tick_price}}</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</td>
+			<td>{{order.total}}</td>
+		</tr>
+		{% endfor %}	
+        </table>
+        
+</body>
+{% endblock content %}

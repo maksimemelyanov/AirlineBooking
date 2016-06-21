@@ -1,0 +1,115 @@
+<head>
+<!--<link rel="stylesheet" type="text/css" href="../scripts/tcal.css" />
+	<script type="text/javascript" src="../scripts/tcal.js"></script>--> 
+<style type="text/css">
+#center {
+	top: 0; /* Отступ в процентах от верхнего края окна */
+	left: 0%; /* Отступ в процентах от левого края окна */
+	width: 100%; /* Ширина блока */
+	height: auto; /* Высота блока */
+	outline: 0px solid #000;
+	position: absolute; /* Абсолютное позиционирование блока */
+	/*margin-top: -400px; /* Отрицательный отступ от верхнего края страницы, должен равняться половине высоты блока со знаком минус */
+	/*margin-left: -400px; /* Отрицательный отступ от левого края страницы, должен равняться половине высоты блока со знаком минус */
+	
+}
+#input {
+}
+</style>
+<style type="text/css">
+            	table {
+			border-spacing: 0 10px;
+			font-family: 'Open Sans', sans-serif;
+			font-weight: bold;
+			font-size: 20px;
+			}
+		th {
+			padding: 10px 20px;
+			background: #56433D;
+			color: #F9C941;
+			border-right: 2px solid; 
+			font-size: 0.9em;
+			}
+		td {
+			vertical-align: middle;
+			padding: 10px;
+			font-size: 16px;
+			text-align: left;
+			border-top: 2px solid #56433D;
+			border-bottom: 2px solid #56433D;
+			border-right: 2px solid #56433D;
+			}
+		td:first-child {
+			border-left: 2px solid #56433D;
+			}
+		td:nth-child(2){
+			ext-align: left;
+			}
+        </style>
+</head>
+{% block content %}
+
+<a href="../logout">Выйти</a>
+<div class="center" id="center">
+<form action="/reserve" method='GET'>
+<center>
+<table width = 90%>
+	<tr>
+		<th width="5%">Заказ №</th>
+		<th width="5%">Рейс</th>
+		<th width="17%">Отправление</th>
+		<th width="13%">Дата и время отправления</th>
+		<th width="17%">Прибытие</th>
+		<th width="13%">Дата и время прибытия</th>
+		<th width="10%">Категория</th>
+		<th width="10%">Количество мест</th>
+		<th width="10%">Итоговая сумма</th>
+	</tr>
+	<tr>
+		<td><center>{{info.order.id}}</center></td>
+		<td><center>{{info.number}}</center></td>
+		<td><center>{{info.fcity}} ({{info.fair}})</center></td>
+		<td><center>{{info.depdate}} {{info.deptime}}</center></td>
+		<td><center>{{info.tocity}} ({{info.toair}})</center></td>
+		<td><center>{{info.arrdate}} {{info.arrtime}}</center></td>
+		<td><center>{{info.category}}</center></td>
+		<td><center>{{info.ind}}</center></td>
+		<td><center>{{info.total}}</center></td>
+
+	</tr>
+</table>
+<table width="80%">
+	<tr>
+		<th width="5%">№</th>
+		<th width="30%">Фамилия, имя, отчество</th>
+		<th width="15%">Карта клиента</th>
+		<th width="10%">Пол</th>
+		<th width="10%">Дата рождения</th>
+		<th width="15%">Документ</th>
+		<th width="15%">Телефон</th>
+	</tr>
+	{% for item in counting %}
+ 	<tr>
+		<td><center>{{item}}</center></td>
+		<td><center><input type="text" required="required" name="name{{item}}" width="100"></center></td>
+		<td><center><input type="text" name="card{{item}}" width="100"></center></td>
+		<td><center>
+			<select name="sex{{item}}">
+    				<option value=True>Мужской</option>
+    				<option value=False>Женский</option>
+			</select></center>
+		</td>
+		<td><center><input type="date" required="required" name="date{{item}}"width="100"></center></td>
+		<td><center><input type="date" required="required" name="doc{{item}}"width="100"></center></td>
+		<td><center><input type="text" name="phone{{item}}" width="100"></center></td>
+	</tr>
+	<br>
+	{% endfor %}
+	
+</table>
+<input type="submit" value="Отправить"></p>
+</center>
+</form>
+</div>
+
+{% endblock content %}

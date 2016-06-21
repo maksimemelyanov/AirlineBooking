@@ -1,0 +1,3 @@
+[run]
+source = bookingsystem
+omit = bookingsystem/test*
