@@ -16,4 +16,6 @@ def includeme(config):
     config.add_route('cab', '/cabinet', factory=HelloFactory)
     config.add_route('search', '/search', factory=HelloFactory)
     config.add_route('buying', '/buy', factory=HelloFactory)
-    config.add_route('reserve', 'reserve', factory=HelloFactory)
+    config.add_route('reserve', '/reserve', factory=HelloFactory)
+    config.add_route('reg', '/reg')
+

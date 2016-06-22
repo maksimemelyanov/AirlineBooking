@@ -7,7 +7,7 @@
 #login {
     position: absolute;
     top: 0px;
-    width: 88%;	
+    width: 80%;	
     padding: 18px 6% 60px 6%;
     margin: 0 0 35px 0;
     background: rgb(247, 247, 247);
@@ -240,10 +240,6 @@ p.signin.button{
                     <label for="password" class="youpasswd" data-icon="p"> Ваш пароль: </label>
                     <input id="password" name="password" required="required" type="password" placeholder="например 123456" /> 
                 </p>
-                <p class="keeplogin"> 
-                    <input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping" /> 
-                    <label for="loginkeeping">Запомнить меня</label>
-                </p>
                 <p class="login button"> 
                     <input type="submit" value="Войти" /> 
                 </p>
@@ -254,22 +250,22 @@ p.signin.button{
         </div>
  
         <div id="register" class="animate form" method="post">
-            <form  action="/signin" autocomplete="on"> 
+            <form  action="/reg" autocomplete="on"> 
                 <h1> Регистрация </h1> 
                 <p> 
-                    <label for="emailsignup" class="youmail" data-icon="e" >Ваш e-mail:</label>
+                    <label for="emailsignup" class="youmail" data-icon="e" >Ваш e-mail:</label><br>
                     <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="sitehere.ru@my.com"/> 
                 </p>
                 <p> 
-                    <label for="passwordsignup" class="youpasswd" data-icon="p">Ваш пароль: </label>
+                    <label for="passwordsignup" class="youpasswd" data-icon="p">Ваш пароль: </label><br>
                     <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="123456"/>
                 </p>
                 <p> 
-                    <label for="firstnamesignup" class="youfirstname" data-icon="p">Имя: </label>
+                    <label for="firstnamesignup" class="youfirstname" data-icon="p">Имя: </label><br>
                     <input id="firstnamesignup" name="firstnamesignup" required="required" type="text" placeholder="Иван"/>
                 </p>
                 <p> 
-                    <label for="lastnamesignup" class="youlastname" data-icon="p">Фамилия: </label>
+                    <label for="lastnamesignup" class="youlastname" data-icon="p">Фамилия: </label><br>
                     <input id="lastnamesignup" name="lastnamesignup" required="required" type="text" placeholder="Иванов"/>
                 </p>
                     <p class="signin button"> 

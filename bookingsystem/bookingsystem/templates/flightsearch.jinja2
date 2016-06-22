@@ -5,7 +5,7 @@
 #center {
 	margin-left:auto;
 	margin-right:auto;
-	top: 10%; /* Отступ в процентах от верхнего края окна */
+	/*top: 10%; /* Отступ в процентах от верхнего края окна */
 	width: auto; /* Ширина блока */
 	height: auto; /* Высота блока */
 	outline: 0px solid #000;
@@ -47,11 +47,28 @@
 			ext-align: left;
 			}
         </style>
+<style type="text/css">
+		a.button {
+			font-weight: 700;
+			color: white;
+			text-decoration: none;
+			padding: .8em 1em calc(.8em + 3px);
+			border-radius: 3px;
+			background: #56433D;
+			box-shadow: 0 -3px #56433D inset;
+			transition: 0.2s;
+			} 
+		a.button:hover { background: #F9C941; }
+		a.button:active {
+			background: #56433D;
+			box-shadow: 0 3px #56433D inset;
+			}
+        </style>
 </head>
 {% block content %}
 
 <a href="../logout">Выйти</a>
-<center><div class="center" id="center">
+<center><div width="auto">
 <form action="/search" method="POST">
   
 <input list="fromcities" placeholder="Отправление" name="fromcity">
@@ -66,12 +83,28 @@
 	<option value="{{city.name}}" label="{{city.name}}">
 {% endfor %}
 </datalist>
-<input type="text" name="date" class="tcal" value="2015-01-01" >
+<input name = "date" type="date"  value="2015-01-01" pattern ="[0-9]{4}-[0-9]{2}-[0-9]{2}">
 <select name="category">
 {% for category in categories %}
 	<option value="{{category.id}}">{{category.name}}</option>
 {% endfor %}
-</select>
+</select><style type="text/css">
+		a.button {
+			font-weight: 700;
+			color: white;
+			text-decoration: none;
+			padding: .8em 1em calc(.8em + 3px);
+			border-radius: 3px;
+			background: #56433D;
+			box-shadow: 0 -3px #56433D inset;
+			transition: 0.2s;
+			} 
+		a.button:hover { background: #F9C941; }
+		a.button:active {
+			background: #56433D;
+			box-shadow: 0 3px #56433D inset;
+			}
+        </style>
 <select name="count">
     <option value="1">1</option>
     <option value="2">2</option>
@@ -82,12 +115,6 @@
 </form>
 </div>
 </center>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 Ваш запрос:{{query}}
 <h3>Результаты поиска</h3>
 <table class="orders" width="100%">
@@ -113,5 +140,7 @@
 		<td><a href="/buy?seat={{flight.r_id}}&count={{flight.p_count}}">Купить</a</td>
 	</tr>
 	{% endfor %}	
-</table>	
+</table>
+<br>
+<a href="../cabinet" class="button">Вернуться в кабинет</a><br><br>	
 {% endblock content %}

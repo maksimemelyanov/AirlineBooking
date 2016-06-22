@@ -26,6 +26,20 @@ def login(request):
 		return HTTPFound(location='../cabinet', headers = headers)
 	return HTTPFound(location='../')
 
+# регистрация
+@view_config(route_name='reg', renderer='../templates/404.jinja2', request_method='POST')
+def regiter(request): 
+	try:
+		DBSession = Session(bind=engine)
+		result = DBSession.query(User).filter(User.email == request.params['emailsignup']).first()
+		if result == None:
+			new_user = User(email=request.params['emailsignup'], password=request.params['passwordsignup'], first_name=request.params['firstnamesignup'], last_name=request.params['lastnamesignup'])
+			DBSession.add(new_user)
+			DBSession.commit()
+	except:
+		HTTPFound(location='../')
+	return HTTPFound(location='../')
+
 # личный кабинет
 @view_config(route_name='cab', renderer='../templates/cabinet.jinja2', permission='view')
 def my_page(request):
@@ -75,10 +89,11 @@ def flight_searching(request):
 	cities = DBSession.query(City).all()
 	categories = DBSession.query(Category).all()
 	category = DBSession.query(Category).filter(Category.id == request.params['category']).first()
+	results = []
+	r=''
+	query = u'рейсы из ' + request.params['fromcity'] + u' в ' + request.params['tocity'] + u' на ' + request.params['date'] + ': ' + category.name + ', ' + request.params['count'] + u' билет(-а)'
 	try:
 		fromcities = DBSession.query(City).filter(City.name == request.params['fromcity']).all()
-		results = []
-		query = u'рейсы из ' + request.params['fromcity'] + u' в ' + request.params['tocity'] + u' на ' + request.params['date'] + u': ' + category.name + u', ' + request.params['count'] + u' билет(-а)'
 		for fcity in fromcities:
 			fair = DBSession.query(Airport).filter(Airport.city_id == fcity.id).first()
 			tocities = DBSession.query(City).filter(City.name == request.params['tocity']).all()
@@ -101,7 +116,7 @@ def logout(request):
 	return HTTPFound(location=request.route_url('main', name='log out!!!'), headers=headers)
 
 # ввод данных о пассажирах
-@view_config(route_name='buying', renderer='../templates/buy.jinja2')
+@view_config(route_name='buying', renderer='../templates/buy.jinja2', permission='view')
 def buy(request):
 	DBSession = Session(bind=engine)
 	cuser = DBSession.query(User).filter(User.email == request.authenticated_userid).first()
@@ -123,12 +138,31 @@ def buy(request):
 	fcity = DBSession.query(City).filter(City.id == fair.city_id).first()
 	tocity = DBSession.query(City).filter(City.id == toair.city_id).first()
 	total = float(request.params['count'])*(seat.price+seat.tax)
-	info = {'number': flight.number, 'fair':fair.name, 'toair':toair.name, 'fcity':fcity.name, 'tocity':tocity.name, 'depdate':flight.date_dep, 'deptime':flight.time_dep, 'arrdate':flight.date_arr, 'arrtime':flight.time_arr, 'total':total, 'ind': request.params['count'], 'category': category.name, 'order': order}
+	info = {'number': flight.number, 'fair':fair.name, 'toair':toair.name, 'fcity':fcity.name, 'tocity':tocity.name, 'depdate':flight.date_dep, 'deptime':flight.time_dep, 'arrdate':flight.date_arr, 'arrtime':flight.time_arr, 'total':total, 'ind': request.params['count'], 'category': category.name, 'order': order, 'seat': seat.id, 'tarif': seat.price, 'tax': seat.tax}
 	return {'counting' : items, 'info': info}
 
-
-
-
+# резервирование мест
+@view_config(route_name='reserve', renderer='../templates/reserve.jinja2', permission='view')
+def reserve(request):
+	DBSession = Session(bind=engine)
+	count = request.params['count']
+	for i in range(1, int(count)+1):
+		client = DBSession.query(Client).filter(Client.document == request.params['doc'+str(i)]).first()
+		if client != None:
+			 
+			DBSession.query(Client).filter(Client.document == request.params['doc'+str(i)]).update({Client.name : request.params['name'+str(i)]})
+   			DBSession.commit()
+		else:
+			date = datetime.strptime(request.params['date'+str(i)], "%d.%m.%y")
+			client = Client(name = request.params['name'+str(i)], birth = date, sex = request.params['sex'+str(i)], card = request.params['card'+str(i)], phone = request.params['phone'+str(i)], document = request.params['doc'+str(i)])
+			DBSession.add(client)
+			DBSession.commit()
+		client = DBSession.query(Client).filter(Client.document == request.params['doc'+str(i)]).first()
+		ticket = Ticket(order_id=request.params['order'], code=str(request.params['order']+'000'+str(i)), client_id=client.id, seat_id=request.params['seat'], totalprice=float(request.params['tarif'])+float(request.params['tax']))
+		DBSession.add(ticket)
+		DBSession.query(Seat).filter(Seat.id == request.params['seat']).update({Seat.count : Seat.count-1})
+		DBSession.commit()
+	return {'status': 'Заказ успешно размещен! Вся информация в личном кабинете. Номер заказа: ', 'order': str(request.params['order'])}
 
 
 db_err_msg = """\

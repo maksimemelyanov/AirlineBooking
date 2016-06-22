@@ -1,0 +1,30 @@
+<head>
+ <meta charset='utf-8'>
+<style type="text/css">
+		a.button {
+			font-weight: 700;
+			color: white;
+			text-decoration: none;
+			padding: .8em 1em calc(.8em + 3px);
+			border-radius: 3px;
+			background: #56433D;
+			box-shadow: 0 -3px #56433D inset;
+			transition: 0.2s;
+			} 
+		a.button:hover { background: #F9C941; }
+		a.button:active {
+			background: #56433D;
+			box-shadow: 0 3px #56433D inset;
+			}
+        </style>
+</head>
+{% block content %}
+
+<a href="../logout">Выйти</a><br>
+<div>
+<center>
+</center>
+</div>
+<br>
+<a href="../cabinet" class="button">Вернуться в кабинет</a>
+{% endblock content %}

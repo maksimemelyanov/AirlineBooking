@@ -46,14 +46,29 @@
 			ext-align: left;
 			}
         </style>
+<style type="text/css">
+		a.button {
+			font-weight: 700;
+			color: white;
+			text-decoration: none;
+			padding: .8em 1em calc(.8em + 3px);
+			border-radius: 3px;
+			background: #56433D;
+			box-shadow: 0 -3px #56433D inset;
+			transition: 0.2s;
+			} 
+		a.button:hover { background: #F9C941; }
+		a.button:active {
+			background: #56433D;
+			box-shadow: 0 3px #56433D inset;
+			}
+        </style>
 </head>
 {% block content %}
-
-<a href="../logout">Выйти</a>
-<div class="center" id="center">
-<form action="/send" method='GET'>
-<center>
+<a href="../logout">Выйти</a><br>
+<center><div>
 <table width = 90%>
+	
 	<tr>
 		<th width="5%">Заказ №</th>
 		<th width="5%">Рейс</th>
@@ -63,6 +78,8 @@
 		<th width="13%">Дата и время прибытия</th>
 		<th width="10%">Категория</th>
 		<th width="10%">Количество мест</th>
+		<th width="10%">Тариф</th>
+		<th width="10%">Сборы</th>
 		<th width="10%">Итоговая сумма</th>
 	</tr>
 	<tr>
@@ -74,11 +91,25 @@
 		<td><center>{{info.arrdate}} {{info.arrtime}}</center></td>
 		<td><center>{{info.category}}</center></td>
 		<td><center>{{info.ind}}</center></td>
+		<td><center>{{info.tarif}}</center></td>
+		<td><center>{{info.tax}}</center></td>
 		<td><center>{{info.total}}</center></td>
 
 	</tr>
 </table>
+</div>
+</center>
+<br>
+<div>
+<form action="/reserve" method='POST'>
+<center>
+
 <table width="80%">
+	<input type="hidden" name="count" visible=False value='{{info.ind}}'>
+	<input type="hidden" name="seat" visible=False value='{{info.seat}}'>
+	<input type="hidden" name="order" visible=False value='{{info.order.id}}'>
+	<input type="hidden" name="tarif" visible=False value='{{info.tarif}}'>
+	<input type="hidden" name="tax" visible=False value='{{info.tax}}'>
 	<tr>
 		<th width="5%">№</th>
 		<th width="30%">Фамилия, имя, отчество</th>
@@ -95,11 +126,11 @@
 		<td><center><input type="text" name="card{{item}}" width="100"></center></td>
 		<td><center>
 			<select name="sex{{item}}">
-    				<option value=True>Мужской</option>
-    				<option value=False>Женский</option>
+    				<option value=1>Мужской</option>
+    				<option value=0>Женский</option>
 			</select></center>
 		</td>
-		<td><center><input type="date" required="required" name="date{{item}}"width="100"></center></td>
+		<td><center><input type="date" placeholder = "01.01.2001" pattern ="[0-9]{2}.[0-9]{2}.[0-9]{2}" required="required" name="date{{item}}"width="100"></center></td>
 		<td><center><input type="date" required="required" name="doc{{item}}"width="100"></center></td>
 		<td><center><input type="text" name="phone{{item}}" width="100"></center></td>
 	</tr>
@@ -111,5 +142,6 @@
 </center>
 </form>
 </div>
-
+<br>
+<a href="../cabinet" class="button">Вернуться в кабинет</a><br>
 {% endblock content %}

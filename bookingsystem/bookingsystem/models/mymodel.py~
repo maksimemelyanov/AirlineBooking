@@ -88,7 +88,7 @@ class Ticket(Base):
     __tablename__ = 'tickets'
     id = Column(Integer, primary_key=True)
     order_id = Column(Integer, ForeignKey("orders.id"), nullable=False)
-    code = Column(Text)
+    code = Column(Text, nullable=False, unique=True)
     client_id = Column(Integer, ForeignKey("clients.id"), nullable=False)
     seat_id = Column(Integer, ForeignKey("seats.id"), nullable=False)
     totalprice = Column(Float)
